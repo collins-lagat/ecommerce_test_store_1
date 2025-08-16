@@ -34,6 +34,8 @@ services:
     environment:
       GOOGLE_OAUTH2_KEY: ${GOOGLE_OAUTH2_KEY}
       GOOGLE_OAUTH2_SECRET: ${GOOGLE_OAUTH2_SECRET}
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG}
 
 volumes:
   postgres:
