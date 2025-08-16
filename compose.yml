@@ -31,6 +31,9 @@ services:
     command: python manage.py runserver 0.0.0.0:5000
     ports:
       - ${APP_PORT:-5000}:5000
+    environment:
+      GOOGLE_OAUTH2_KEY: ${GOOGLE_OAUTH2_KEY}
+      GOOGLE_OAUTH2_SECRET: ${GOOGLE_OAUTH2_SECRET}
 
 volumes:
   postgres:
