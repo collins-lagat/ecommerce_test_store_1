@@ -27,6 +27,7 @@ urlpatterns = (
         path("admin/", admin.site.urls),
         path("", include("social_django.urls", namespace="social")),
         path("", views.index, name="index"),
+        path("", include("products.urls")),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

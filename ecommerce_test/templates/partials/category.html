@@ -1,0 +1,28 @@
+<div class="d-flex flex-column">
+  <h2>{{ category.name }}</h2>
+  <div>
+    {% for child in category.children.all %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" aria-current="page">{{ category.name }}</li>
+        <li class="breadcrumb-item active" aria-current="page">
+          <a href="{% url 'category' category_id=child.id %}">
+            {{child.name }}
+          </a>
+        </li>
+      </ol>
+    </nav>
+    {% endfor %}
+  </div>
+  <div class="d-flex flex-wrap">
+    {% with products=category.get_all_products %}
+    {% if products %}
+    {% for product in products %}
+    {% include "partials/product-card.html" %}
+    {% endfor %}
+    {% else %}
+    <p>No products in this category</p>
+    {% endif %}
+    {% endwith %}
+  </div>
+</div>
