@@ -1,4 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+  <div class="row">
+    {% for category in categories %}
+      <div class="col-md-4">
+        {% include "partials/category.html" %}
+      </div>
+    {% endfor %}
+  </div>
+
 {% endblock %}
