@@ -29,7 +29,9 @@
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% for category in categories %}
                   <li>
-                    <a class="dropdown-item" href="#">{{ category.name }}</a>
+                  <a class="dropdown-item" href="{% url 'category' category_id=category.id %}">
+                    {{ category.name }}
+                  </a>
                   </li>
                 {% endfor %}
               </ul>
