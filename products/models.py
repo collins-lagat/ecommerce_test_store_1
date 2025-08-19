@@ -23,5 +23,16 @@ class Category(models.Model):
     )
     average_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
+    def get_all_products(self):
+        return self._get_products_for_category(self)
+
+    def _get_products_for_category(self, category):
+        products = Product.objects.filter(category=category)
+
+        for child in category.children.all():
+            products |= self._get_products_for_category(child)
+
+        return products
+
     def __str__(self):
         return self.name
