@@ -14,7 +14,7 @@
     </nav>
     {% endfor %}
   </div>
-  <div class="d-flex flex-wrap">
+  <div class="d-flex flex-wrap" style="gap: 1rem;">
     {% with products=category.get_all_products %}
     {% if products %}
     {% for product in products %}
