@@ -61,6 +61,23 @@ class Cart {
         }
       });
   }
+
+  complete() {
+    fetch("/api/cart/complete/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      mode: "same-origin",
+    })
+      .then((response) => {
+        if (response.ok) {
+          window.location.href = "/";
+          this.sync();
+        }
+      });
+  }
 }
 
 
@@ -73,7 +90,7 @@ const handleClearCartButton = function (cart) {
 };
 
 const handleCheckoutButton = function (cart) {
-  cart.clear();
+  cart.complete();
 };
 
 
