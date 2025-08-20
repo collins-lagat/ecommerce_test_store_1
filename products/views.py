@@ -33,9 +33,3 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
 class ProductViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
-
-router = routers.DefaultRouter()
-
-router.register(r"category", CategoryViewSet)
-router.register(r"product", ProductViewSet)
