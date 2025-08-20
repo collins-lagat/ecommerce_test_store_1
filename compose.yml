@@ -18,6 +18,9 @@ services:
     ports:
       - ${PGADMIN_PORT:-5050}:80
 
+  redis:
+    image: redis:8.2-alpine
+
   app:
     depends_on:
       - db
@@ -34,6 +37,22 @@ services:
       GOOGLE_OAUTH2_SECRET: ${GOOGLE_OAUTH2_SECRET}
       SECRET_KEY: ${SECRET_KEY}
       DEBUG: ${DEBUG}
+
+  worker:
+    depends_on:
+      - redis
+      - app
+    build:
+      context: .
+    volumes:
+      - .:/app
+    command: celery -A ecommerce_test worker -l info
+    environment:
+      GOOGLE_OAUTH2_KEY: ${GOOGLE_OAUTH2_KEY}
+      GOOGLE_OAUTH2_SECRET: ${GOOGLE_OAUTH2_SECRET}
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG}
+      REDIS_URL: ${REDIS_URL}
 
 volumes:
   postgres:
