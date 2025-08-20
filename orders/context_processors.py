@@ -10,5 +10,9 @@ def load_cart(request):
         .order_by("-created_at")
         .first()
     )
+
+    if not order:
+        return {"cart_item_count": 0}
+
     count = sum([item.quantity for item in order.item_set.all()])
     return {"cart_item_count": count}
