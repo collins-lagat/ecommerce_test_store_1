@@ -20,27 +20,6 @@ class Order(models.Model):
     def __str__(self):
         return f"Order #{self.id}"
 
-    def save(
-        self,
-        *args,
-        force_insert=False,
-        force_update=False,
-        using=None,
-        update_fields=None,
-    ):
-        if self.pk is not None:
-            total = sum(
-                [item.quantity * item.product.price for item in self.item_set.all()]
-            )
-            self.total = total
-        return super().save(
-            *args,
-            force_insert=force_insert,
-            force_update=force_update,
-            using=using,
-            update_fields=update_fields,
-        )
-
 
 class Item(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -54,9 +33,16 @@ class Item(models.Model):
         force_update=False,
         using=None,
         update_fields=None,
-        **kwargs,
     ):
-        item = super().save(
+        is_new = self.pk is None
+        existing_item = self.order.item_set.filter(product=self.product).first()
+        has_existing_item = existing_item is not None
+
+        if is_new and has_existing_item:
+            existing_item.quantity += 1
+            return existing_item.save()
+
+        result = super().save(
             *args,
             force_insert=force_insert,
             force_update=force_update,
@@ -64,22 +50,14 @@ class Item(models.Model):
             update_fields=update_fields,
         )
 
-        found = self.order.item_set.filter(product=self.product).first()
-        if found and not kwargs.get("skip_found_check", False):
-            found.quantity += self.quantity
-            found.save(skip_found_check=True)
-            return found
-
         total = sum(
             [item.quantity * item.product.price for item in self.order.item_set.all()]
         )
 
-        total += self.quantity * self.product.price
-
         self.order.total = total
         self.order.save()
 
-        return item
+        return result
 
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"
