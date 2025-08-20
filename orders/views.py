@@ -72,19 +72,18 @@ class CartViewSet(viewsets.GenericViewSet):
         return Response(status=200)
 
 
-class CartItemViewSet(
-    viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.DestroyModelMixin
-):
+class CartItemViewSet(viewsets.GenericViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     permission_classes = [IsAuthenticated]
 
-    def create(self, request, *args, **kwargs):
+    @action(detail=False, methods=["post"])
+    def add(self, request, *args, **kwargs):
         order_queryset = Order.objects.filter(
             user=self.request.user, state="P"
         ).order_by("-created_at")
         try:
-            order = order_queryset.get().get()
+            order = order_queryset.get()
         except Order.DoesNotExist:
             order = Order(user=self.request.user)
         except Order.MultipleObjectsReturned:
@@ -109,3 +108,9 @@ class CartItemViewSet(
             return {"Location": str(data[api_settings.URL_FIELD_NAME])}
         except (TypeError, KeyError):
             return {}
+
+    @action(detail=True, methods=["delete"])
+    def remove(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
