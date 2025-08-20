@@ -8,6 +8,7 @@ from rest_framework.settings import api_settings
 
 from orders.models import Item, Order
 from orders.serializers import ItemSerializer, OrderSerializer
+from orders.tasks import send_new_order_email_to_admin
 
 
 def order(request, order_id):
@@ -85,6 +86,7 @@ class CartViewSet(viewsets.GenericViewSet):
         instance.state = "C"
         instance.completed_at = timezone.now()
         instance.save()
+        send_new_order_email_to_admin.delay_on_commit(instance.id)
         return Response(status=200)
 
 

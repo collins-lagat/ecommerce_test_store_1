@@ -21,6 +21,13 @@ services:
   redis:
     image: redis:8.2-alpine
 
+  mailpit:
+    image: "axllent/mailpit:latest"
+    command: --smtp-auth-allow-insecure
+    ports:
+      - "${FORWARD_MAILPIT_PORT:-1025}:1025"
+      - "${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025"
+
   app:
     depends_on:
       - db
@@ -41,6 +48,7 @@ services:
   worker:
     depends_on:
       - redis
+      - mailpit
       - app
     build:
       context: .

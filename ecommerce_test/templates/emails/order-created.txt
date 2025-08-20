@@ -1,0 +1,10 @@
+# Order Created
+## Order ID: {{ order.id }}
+
+Item | Quantity | Price
+--- | -------- | -----
+{% for item in order.item_set.all %}
+{{ item.product.name }} | {{ item.quantity }} | {{ item.product.price }}
+{% endfor %}
+
+Total: {{ order.total }}
