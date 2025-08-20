@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN groupadd -g ${GROUP_ID} app \
   && useradd -m -l -u ${USER_ID} -g app app \
   && mkdir -p /app /home/app/.local/bin /home/app/.local/lib \
-  && chown -R app:app /app /home/app/.local/bin /home/app/.local/lib
+  && chown -R app:app /app /home/app/.local /home/app/.local/bin /home/app/.local/lib
 
 USER app
 
