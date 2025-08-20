@@ -4,7 +4,7 @@ from django.db import models
 class Product(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField(default="")
-    image = models.ImageField(null=True, blank=True, default="placeholder.png")
+    image = models.ImageField(null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.ForeignKey("products.Category", on_delete=models.CASCADE)
 

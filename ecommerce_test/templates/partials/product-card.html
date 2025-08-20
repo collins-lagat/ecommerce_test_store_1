@@ -1,6 +1,13 @@
+{% load static %}
 <div class="card position-relative" style="width: 18rem;">
   <div class="ratio ratio-4x3">
-    <img src="{{ product.image.url }}" class="card-img-top object-fit-cover" alt="{{ product.name }}">
+    {% with image=product.image %}
+    {% if image %}
+    <img src="{{ image.url }}" class="card-img-top object-fit-cover" alt="{{ product.name }}">
+    {% else %}
+    <img src="{% static 'placeholder.png' %}" class="card-img-top object-fit-cover" alt="{{ product.name }}">
+    {% endif %}
+    {% endwith %}
   </div>
   <div class="card-body">
     <h5 class="card-title">
