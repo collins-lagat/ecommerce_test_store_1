@@ -1,8 +1,34 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block content %}
 
 <div class="row">
+    <div class="col-md-12 d-flex flex-column" style="gap: 1rem;">
+        <div class="ratio ratio-4x3">
+          {% with image=product.image %}
+          {% if image %}
+          <img src="{{ image.url }}" class="card-img-top object-fit-cover" alt="{{ product.name }}">
+          {% else %}
+          <img src="{% static 'placeholder.png' %}" class="card-img-top object-fit-cover" alt="{{ product.name }}">
+          {% endif %}
+          {% endwith %}
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>
+                {{ product.name }}
+            </h1>
+            <h1>
+                {{ product.price }}
+            </h1>
+        </div>
+       
+        <p>{{ product.description }}</p>
+      
+        <button class="btn btn-primary add-to-card" data-product-id="{{ product.id }}">Add to Cart</button>
+    </div>
 </div>
 
 {% endblock %}
