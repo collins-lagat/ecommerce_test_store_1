@@ -10,6 +10,11 @@ from orders.models import Item, Order
 from orders.serializers import ItemSerializer, OrderSerializer
 
 
+def order(request, order_id):
+    order = get_object_or_404(Order, pk=order_id)
+    return render(request, "order-single.html", {"order": order})
+
+
 def checkout(request):
     cart_items = []
     cart_total = 0
