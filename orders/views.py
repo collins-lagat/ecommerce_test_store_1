@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.utils.http import timezone
 from rest_framework import mixins, status, viewsets
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
@@ -47,6 +48,14 @@ class CartViewSet(viewsets.GenericViewSet):
         instance.cancelled_at = timezone.now()
         instance.save()
         return Response(status=204)
+
+    @action(detail=False, methods=["post"])
+    def complete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.state = "C"
+        instance.completed_at = timezone.now()
+        instance.save()
+        return Response(status=200)
 
 
 class CartItemViewSet(
