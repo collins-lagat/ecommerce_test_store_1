@@ -24,8 +24,6 @@ services:
       - pgadmin
     build:
       context: .
-      ssh:
-        - default
     volumes:
       - .:/app
     command: python manage.py runserver 0.0.0.0:5000

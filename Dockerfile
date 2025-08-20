@@ -12,8 +12,6 @@ SHELL ["/bin/bash", "-xo", "pipefail", "-c"]
 # Install base dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
   vim \
-  # To clone a git repo
-  git ssh \
   # To install psycopg2
   libpq-dev libpq5 \
   # To install python-ldap
@@ -27,9 +25,6 @@ RUN groupadd -g ${GROUP_ID} app \
   && chown -R app:app /app /home/app/.local/bin /home/app/.local/lib
 
 USER app
-
-# hadolint ignore=SC2174
-RUN mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 WORKDIR /app
 
