@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +44,7 @@
               {% if user.is_authenticated %}
                 <li class="nav-item">
                   <a class="nav-link position-relative" href="/checkout">Cart
-                    <span class="badge bg-danger position-absolute top-0 start-100 translate-middle badge-pill cart">
+                    <span id="cart" class="badge bg-danger position-absolute top-0 start-100 translate-middle badge-pill">
                       {{ cart_item_count }}
                     </span>
                   </a>
@@ -72,6 +74,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
     integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK"
     crossorigin="anonymous"></script>
+  <script src="{% static 'main.js' %}"></script>
 </body>
 
 </html>
