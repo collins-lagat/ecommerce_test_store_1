@@ -1,5 +1,5 @@
-from django.db import models
 from django.conf import global_settings
+from django.db import models
 
 ORDER_STATES = (
     ("P", "Pending"),

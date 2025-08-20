@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from rest_framework import viewsets, routers, mixins
+from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
