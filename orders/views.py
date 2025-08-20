@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.utils.http import timezone
 from rest_framework import mixins, status, viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 
@@ -15,6 +16,7 @@ class CartViewSet(viewsets.GenericViewSet):
         .order_by("-created_at")
     )
     serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         queryset = self.filter_queryset(self.get_queryset())
@@ -52,6 +54,7 @@ class CartItemViewSet(
 ):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         order_queryset = Order.objects.filter(
