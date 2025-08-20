@@ -9,5 +9,6 @@ router.register(r"", views.CartViewSet)
 router.register(r"item", views.CartItemViewSet)
 
 urlpatterns = [
+    path("checkout/", views.checkout, name="checkout"),
     path("api/cart/", include(router.urls)),
 ]

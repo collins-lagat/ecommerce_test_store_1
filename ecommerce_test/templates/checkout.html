@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+
+  <div class="col-md-12 d-flex flex-column" style="gap: 3rem;">
+    <h1>Checkout</h1>
+
+    <div class="d-flex flex-column" style="gap: 1rem;">
+      <h3>Items</h3>
+      <div class="d-flex flex-column p-3 border border-rounded bg-light" style="gap: 0.75rem;">
+        {% for item in cart_items %}
+        {% include "partials/cart-item.html" %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <h3>Total</h3>
+      <h3>{{ cart_total }}</h3>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <button id="clear-cart" class="btn btn-danger">Clear Cart</button>
+      <button id="checkout" class="btn btn-primary">Complete Order</button>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

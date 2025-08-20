@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.http import timezone
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
@@ -8,6 +8,20 @@ from rest_framework.settings import api_settings
 
 from orders.models import Item, Order
 from orders.serializers import ItemSerializer, OrderSerializer
+
+
+def checkout(request):
+    order = (
+        Order.objects.prefetch_related("item_set")
+        .filter(state="P", user=request.user)
+        .order_by("-created_at")
+        .get()
+    )
+    cart_items = order.item_set.all()
+
+    return render(
+        request, "checkout.html", {"cart_items": cart_items, "cart_total": order.total}
+    )
 
 
 class CartViewSet(viewsets.GenericViewSet):
