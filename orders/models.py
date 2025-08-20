@@ -11,7 +11,7 @@ ORDER_STATES = (
 class Order(models.Model):
     user = models.ForeignKey(global_settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    state = models.CharField(max_length=1, choices=ORDER_STATES)
+    state = models.CharField(max_length=1, choices=ORDER_STATES, default="P")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     cancelled_at = models.DateTimeField(null=True, blank=True)
