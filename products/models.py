@@ -11,6 +11,35 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def save(
+        self,
+        *args,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+    ):
+        result = super().save(
+            *args,
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
+
+        categories = [self.category]
+        current_category = self.category
+        while current_category.parent is not None:
+            categories.append(self.category.parent)
+            current_category = self.category.parent
+
+        for category in categories:
+            prices = [product.price for product in category.get_all_products()]
+            category.average_price = sum(prices) / len(prices)
+            category.save()
+
+        return result
+
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
