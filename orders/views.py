@@ -86,6 +86,7 @@ class CartItemViewSet(viewsets.GenericViewSet):
             order = order_queryset.get()
         except Order.DoesNotExist:
             order = Order(user=self.request.user)
+            order.save()
         except Order.MultipleObjectsReturned:
             for o in order_queryset.all()[1:]:
                 o.state = "D"
