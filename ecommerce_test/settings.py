@@ -76,6 +76,7 @@ TEMPLATES = [
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
                 "products.context_processors.load_categories",
+                "orders.context_processors.load_cart",
             ],
         },
     },
