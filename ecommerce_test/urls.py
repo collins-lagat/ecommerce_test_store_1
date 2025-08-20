@@ -26,6 +26,7 @@ urlpatterns = (
     [
         path("admin/", admin.site.urls),
         path("", include("social_django.urls", namespace="social")),
+        path("api-auth/", include("rest_framework.urls")),
         path("", views.index, name="index"),
         path("", include("products.urls")),
     ]
