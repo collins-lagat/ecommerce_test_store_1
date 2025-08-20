@@ -56,7 +56,7 @@ class CartViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-    def destroy(self, request, *args, **kwargs):
+    def delete(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.state = "D"
         instance.cancelled_at = timezone.now()
