@@ -11,12 +11,23 @@ from orders.serializers import ItemSerializer, OrderSerializer
 
 
 def checkout(request):
-    order = (
-        Order.objects.prefetch_related("item_set")
-        .filter(state="P", user=request.user)
-        .order_by("-created_at")
-        .get()
-    )
+    cart_items = []
+    cart_total = 0
+
+    try:
+        order = (
+            Order.objects.prefetch_related("item_set")
+            .filter(state="P", user=request.user)
+            .order_by("-created_at")
+            .get()
+        )
+    except Order.DoesNotExist:
+        return render(
+            request,
+            "checkout.html",
+            {"cart_items": cart_items, "cart_total": cart_total},
+        )
+
     cart_items = order.item_set.all()
 
     return render(
