@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
-from django.urls import reverse
 
 from customer.forms import CompleteSignUp
 
@@ -12,7 +11,7 @@ def complete_sign_up(request):
         form = CompleteSignUp(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect(reverse("profile"))
+            return redirect("/")
     else:
         form = CompleteSignUp(instance=request.user)
     return render(request, "customer-complete-signup.html", {"form": form})
