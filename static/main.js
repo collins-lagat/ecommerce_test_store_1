@@ -73,7 +73,7 @@ class Cart {
     })
       .then((response) => {
         if (response.ok) {
-          window.location.href = "/";
+          window.location.href = "/profile";
           this.sync();
         }
       });
