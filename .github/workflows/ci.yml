@@ -5,6 +5,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    environment: VPS
     steps:
       - name: Deploy to Server
         uses: appleboy/ssh-action@v1
