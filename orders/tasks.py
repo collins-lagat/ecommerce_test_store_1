@@ -1,16 +1,16 @@
 import africastalking
 from celery import shared_task
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.core.mail.message import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
+from customer.models import Customer
 from orders.models import Order
 
 
 @shared_task
 def send_new_order_email_to_admin(order_id):
-    user = User.objects.filter(is_staff=True).first()
+    user = Customer.objects.filter(is_staff=True).first()
     order = Order.objects.get(pk=order_id)
 
     text_content = render_to_string("emails/order-created.txt", {"order": order})
