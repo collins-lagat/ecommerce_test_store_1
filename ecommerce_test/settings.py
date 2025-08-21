@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "social_django",
+    "customer",
     "orders",
     "products",
 ]
@@ -118,6 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "customer.Customer"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -174,6 +176,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("GOOGLE_OAUTH2_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("GOOGLE_OAUTH2_SECRET")
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
+
+SOCIAL_AUTH_USER_MODEL = "customer.Customer"
 
 # Rest Framework
 
