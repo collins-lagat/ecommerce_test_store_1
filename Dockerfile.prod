@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN groupadd -g ${GROUP_ID} app \
   && useradd -m -l -u ${USER_ID} -g app app \
   && mkdir -p /app /app/static /app/media \
-  /home/app/.local/bin /home/app/.local/lib \
+  /home/app/.var/logs /home/app/.local/bin /home/app/.local/lib \
   && chown -R app:app /app home/app
 
 USER app
@@ -31,7 +31,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install --user --no-cache-dir -r requirements.txt && python manage.py collectstatic --noinput
+RUN pip install --user --no-cache-dir -r requirements.txt \
+  && python manage.py collectstatic --noinput
 
 CMD ["gunicorn", "ecommerce_test.wsgi:application", "--bind", "0.0.0.0:5000"]
 
