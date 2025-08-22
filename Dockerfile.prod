@@ -21,8 +21,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Create a group and user
 RUN groupadd -g ${GROUP_ID} app \
   && useradd -m -l -u ${USER_ID} -g app app \
-  && mkdir -p /app /app/static /app/media /home/app/.local/bin /home/app/.local/lib \
-  && chown -R app:app /app /app/static /app/media /home/app/.local /home/app/.local/bin /home/app/.local/lib
+  && mkdir -p /app /app/static /app/media \
+  /home/app/.local/bin /home/app/.local/lib \
+  && chown -R app:app /app home/app
 
 USER app
 
