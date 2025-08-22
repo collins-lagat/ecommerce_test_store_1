@@ -1,0 +1,81 @@
+services:
+  db:
+    image: postgres:15.4-alpine
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-1234}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_DB: ${DB_NAME:-ecommerce_test}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis:8.2-alpine
+
+  mailpit:
+    image: "axllent/mailpit:latest"
+    command: --smtp-auth-allow-insecure
+    ports:
+      - "${FORWARD_MAILPIT_PORT:-1025}:1025"
+      - "${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025"
+
+  app:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    environment:
+      GOOGLE_OAUTH2_KEY: ${GOOGLE_OAUTH2_KEY}
+      GOOGLE_OAUTH2_SECRET: ${GOOGLE_OAUTH2_SECRET}
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG:-"False"}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-*}
+      DB_NAME: ${DB_NAME:-ecommerce_test}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-1234}
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-5432}
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - static:/app/static
+      - media:/app/media
+
+  worker:
+    depends_on:
+      - redis
+      - mailpit
+      - app
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    command: celery -A ecommerce_test worker -l info
+    environment:
+      GOOGLE_OAUTH2_KEY: ${GOOGLE_OAUTH2_KEY}
+      GOOGLE_OAUTH2_SECRET: ${GOOGLE_OAUTH2_SECRET}
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: 0
+      DB_NAME: ${DB_NAME:-ecommerce_test}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-1234}
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-5432}
+      REDIS_URL: redis://redis:6379/0
+      AFRICASTALKING_USERNAME: ${AFRICASTALKING_USERNAME}
+      AFRICASTALKING_API_KEY: ${AFRICASTALKING_API_KEY}
+      AFRICASTALKING_SHORTCODE: ${AFRICASTALKING_SHORTCODE}
+
+  nginx:
+    depends_on:
+      - app
+    image: nginx:alpine
+    ports:
+      - ${APP_PORT:-80}:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - static:/app/static
+      - media:/app/media
+
+volumes:
+  postgres:
+  static:
+  media:

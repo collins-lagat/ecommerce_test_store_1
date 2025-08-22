@@ -2,3 +2,12 @@ venv
 .env
 Dockerfile
 compose.yml
+compose.prod.yml
+nginx.conf
+README.md
+Dockerfile.prod
+Dockerfile
+static
+!static/.gitkeep
+media/*
+!media/.gitkeep

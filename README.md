@@ -34,9 +34,9 @@ Additionally, it supports REST APIs for:
 ### Installation
 
 1. Clone the repository
-2. Run `docker-compose up -d` to start the containers
-3. Run `docker-compose exec app python manage.py migrate` to create the database tables
-4. Run `docker-compose exec app python manage.py createsuperuser` to create a superuser
+2. Run `bin/start` or `docker compose up -d` to start the containers
+3. Run `docker compose exec app python manage.py migrate` to create the database tables
+4. Run `docker compose exec app python manage.py createsuperuser` to create a superuser
 
 ### Running the application
 
