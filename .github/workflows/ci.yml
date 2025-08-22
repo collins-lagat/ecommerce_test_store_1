@@ -17,4 +17,5 @@ jobs:
             cd /home/app/ecommerce_test_store_1
             git pull
             docker compose -f compose.prod.yml --env-file .env.prod build
+            docker compose -f compose.prod.yml --env-file .env.prod down
             docker compose -f compose.prod.yml --env-file .env.prod up -d
