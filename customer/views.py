@@ -6,7 +6,9 @@ from customer.forms import CompleteSignUp
 
 @login_required
 def complete_sign_up(request):
-    print(request.user)
+    if request.user.is_authenticated and request.user.phone_number:
+        return redirect("/")
+
     if request.method == "POST":
         form = CompleteSignUp(request.POST, instance=request.user)
         if form.is_valid():
