@@ -21,7 +21,7 @@
       </div>
     </h5>
     <p class="card-text">
-      {{ product.description }}
+      {{ product.description|truncatewords:15 }}
     </p>
     <a class="position-absolute top-0 bottom-0 start-0 end-0 z-1" href="{% url 'product' product_id=product.id %}"></a>
     <button class="btn btn-primary z-2 position-relative add-to-card" data-product-id="{{ product.id }}">Add to Cart</button>
